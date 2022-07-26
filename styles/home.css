@@ -10,8 +10,6 @@ body {
 }
 
 canvas {
-    padding: 1pt;
-    margin: 1pt;
     border: 1pt solid black;
 }
 
