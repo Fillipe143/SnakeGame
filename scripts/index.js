@@ -60,9 +60,36 @@ function update() {
 function movePlayer() {
     let playerHead = playerBlockList.at(-1)
     playerHead = createPlayerBlock(playerHead.coord.x + playerSpeed.x, playerHead.coord.y + playerSpeed.y)
-    
+
+    if (checkCollisionWithBorders(playerHead)) return finish()
+    if (checkCollisionWithPlayer(playerHead)) return finish()
+
     playerBlockList.push(playerHead)
     playerBlockList.shift()
+}
+
+function checkCollisionWithBorders(playerHead) {
+    return playerHead.x >= areaSize
+        || playerHead.x < 0
+        || playerHead.y >= areaSize
+        || playerHead.y < 0
+}
+
+function checkCollisionWithPlayer(playerHead) {
+    for (let i = 0; i < playerBlockList.length - 1; i++) {
+        const block = playerBlockList[i]
+
+        if (playerHead.x == block.x && playerHead.y == block.y)
+            return true
+    }
+
+    return false
+}
+
+function finish() {
+    isRunning = false
+    alert(`Score: ${playerBlockList.length}`)
+    start()
 }
 
 function start() {
