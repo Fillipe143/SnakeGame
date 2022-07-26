@@ -4,6 +4,7 @@ import { blockSize } from './index.js'
 function createBlock(type, x, y, color) {
     return {
         type, color,
+        coord: { x, y },
         x: x * blockSize,
         y: y * blockSize,
         size: blockSize
