@@ -1,4 +1,4 @@
-import { createPlayerBlock } from './block.js'
+import { createFruitBlock, createPlayerBlock } from './block.js'
 import { keyboardController } from './keyboardController.js'
 
 const canvas = document.getElementsByTagName('canvas')[0]
@@ -101,4 +101,22 @@ function start() {
     }
 
     isRunning = true
+}
+
+function spawnFruit() {
+    let validPositions = []
+
+    for (let y = 0; y < numBlocks; y++) {
+        for (let x = 0; x < numBlocks; x++) {
+            validPositions.push({ x, y })
+        }
+    }
+
+    for (let coord of playerBlockList.concat(fruitBlockList)) {
+        validPositions.splice(validPositions.indexOf(coord), 1);
+    }
+
+    let { x, y } = validPositions[Math.floor(Math.random() * validPositions.length)]
+    fruitBlockList.push(createFruitBlock(x, y))
+    console.log(fruitBlockList)
 }
