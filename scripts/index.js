@@ -14,14 +14,13 @@ export const blockSize = areaSize / numBlocks
 let playerBlockList = []
 const fruitBlockList = []
 
-const initalPlayerSize = 10
+const initalPlayerSize = 1
 export let playerSpeed = { x: 1, y: 0 }
 
 let isRunning = true
 
 export function setSpeed(speed) {
     playerSpeed = speed
-    console.log(playerSpeed)
 }
 
 start()
@@ -64,6 +63,14 @@ function movePlayer() {
     if (checkCollisionWithBorders(playerHead)) return finish()
     if (checkCollisionWithPlayer(playerHead)) return finish()
 
+    const fruit = checkCollisionWithFruit(playerHead)
+    
+    if (fruit) {
+        playerBlockList.unshift(playerBlockList[0])        
+        fruitBlockList.splice(fruitBlockList.indexOf(fruit), 1)
+        spawnFruit()
+    }
+
     playerBlockList.push(playerHead)
     playerBlockList.shift()
 }
@@ -81,6 +88,17 @@ function checkCollisionWithPlayer(playerHead) {
 
         if (playerHead.x == block.x && playerHead.y == block.y)
             return true
+    }
+
+    return false
+}
+
+function checkCollisionWithFruit(playerHead) {
+    for (let i = 0; i < fruitBlockList.length; i++) {
+        const block = fruitBlockList[i]
+
+        if (playerHead.x == block.x && playerHead.y == block.y)
+            return block
     }
 
     return false
@@ -118,5 +136,6 @@ function spawnFruit() {
 
     let { x, y } = validPositions[Math.floor(Math.random() * validPositions.length)]
     fruitBlockList.push(createFruitBlock(x, y))
-    console.log(fruitBlockList)
 }
+
+spawnFruit()
