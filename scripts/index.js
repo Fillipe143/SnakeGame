@@ -17,15 +17,19 @@ const fruitBlockList = []
 const initalPlayerSize = 1
 export let playerSpeed = { x: 1, y: 0 }
 
-let isRunning = true
+let isRunning = false
 
 export function setSpeed(speed) {
     playerSpeed = speed
 }
 
-start()
+//start()
 keyboardController()
 setInterval(update, 100)
+
+document.addEventListener('keydown', ({ key }) => {
+    if (!isRunning && key === 'Enter') start();
+})
 
 function render() {
     ctx.fillStyle = 'white'
@@ -107,7 +111,7 @@ function checkCollisionWithFruit(playerHead) {
 function finish() {
     isRunning = false
     alert(`Score: ${playerBlockList.length}`)
-    start()
+    //start()
 }
 
 function start() {
